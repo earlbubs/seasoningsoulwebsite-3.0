@@ -3,8 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Women's - Seasoning Soul</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .add-to-cart-btn {
+            background-color: #222;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .add-to-cart-btn:hover {
+            background: #444;
+        }
+        #add-to-cart-message {
+            color: green;
+            font-size: 1rem;
+            margin-top: 10px;
+            display: none;
+        }
+        #add-to-cart-error {
+            color: red;
+            font-size: 1rem;
+            margin-top: 10px;
+            display: none;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e33;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            font-weight: bold;
+        }
+        .cart-icon {
+            position: relative;
+        }
+        .size-btn.selected {
+            background: #444;
+            color: #fff;
+        }
+        .size-btn {
+            background: #eee;
+            border: 1px solid #ccc;
+            margin-right: 8px;
+            padding: 6px 20px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .color-circle {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 8px;
+            border: 1px solid #aaa;
+        }
+        .color-circle.selected {
+            border: 3px solid #444;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -18,47 +86,39 @@
             <li><a href="/about">ABOUT</a></li>
         </ul>
         <div class="cart-icon">
-            <a href="/checkout">🛒</a>
+            <a href="/checkout">🛒<span id="cart-badge" class="cart-badge" style="display: none;">0</span></a>
         </div>
     </nav>
-
-    <!-- Canvas for screensaver -->
-    <canvas id="logoCanvas"></canvas>
 
     <main>
         <div class="content">
             <h1>WOMEN'S COLLECTION</h1>
-            
             <div class="products-grid">
-                <div class="product-card">
+                <div class="product-card" data-product-id="womens-tshirt-001">
                     <div class="product-images">
                         <div class="shirt-showcase">
-                            <div class="shirt-front">
-                                <div class="product-image">Front Design</div>
-                            </div>
-                            <div class="shirt-back">
-                                <div class="product-image">Back Design</div>
-                            </div>
+                            <div class="shirt-front"><div class="product-image">Front Design</div></div>
+                            <div class="shirt-back"><div class="product-image">Back Design</div></div>
                         </div>
                     </div>
                     <div class="product-name">Seasoning Soul T-Shirt</div>
-                    <div class="product-price">$20</div>
+                    <div class="product-price" data-price="20">$20</div>
                     
                     <div class="product-details-section">
                         <div class="detail-group">
                             <div class="detail-label">Sizes</div>
                             <div class="sizes">
-                                <button class="size-btn">S</button>
-                                <button class="size-btn">M</button>
-                                <button class="size-btn">L</button>
-                                <button class="size-btn">XL</button>
+                                <button class="size-btn" data-size="S">S</button>
+                                <button class="size-btn" data-size="M">M</button>
+                                <button class="size-btn" data-size="L">L</button>
+                                <button class="size-btn" data-size="XL">XL</button>
                             </div>
                         </div>
 
                         <div class="detail-group">
                             <div class="detail-label">Colors</div>
                             <div class="colors">
-                                <div class="color-circle" style="background-color: #87CEEB;"></div>
+                                <span class="color-circle selected" data-color="#87CEEB" title="Light Blue" style="background-color: #87CEEB;"></span>
                                 <span class="color-label">Light Blue</span>
                             </div>
                         </div>
@@ -71,6 +131,10 @@
                                 </div>
                             </div>
                         </div>
+
+                        <button class="add-to-cart-btn" id="addToCartBtn">Add to Cart</button>
+                        <div id="add-to-cart-message">Added to cart!</div>
+                        <div id="add-to-cart-error">Please select a size!</div>
                     </div>
                 </div>
             </div>
@@ -83,6 +147,99 @@
         <p>Locally Owned and Operated by Earl Twigg. EST. 2026</p>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Advanced Cart JS -->
+    <script>
+        // Globals (can extend to use product id, color, price, etc)
+        let selectedSize = null;
+        let selectedColor = "#87CEEB";
+        // Expand to multiple colors: just add more spans with color-circle class, and handle clicks
+
+        // Size button select logic
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedSize = btn.getAttribute('data-size');
+                document.getElementById('add-to-cart-error').style.display = 'none';
+            });
+        });
+
+        // Color select logic (expand for more colors)
+        document.querySelectorAll('.color-circle').forEach(circle => {
+            circle.addEventListener('click', function() {
+                document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('selected'));
+                circle.classList.add('selected');
+                selectedColor = circle.getAttribute('data-color');
+            });
+        });
+
+        function getCart() {
+            try { return JSON.parse(localStorage.getItem('cart')) || []; }
+            catch { return []; }
+        }
+        function setCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartBadge();
+        }
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const cart = getCart();
+            if (cart.length > 0) {
+                badge.textContent = cart.length;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // On Add to Cart
+        document.getElementById('addToCartBtn').addEventListener('click', function() {
+            const errorMsg = document.getElementById('add-to-cart-error');
+            const addedMsg = document.getElementById('add-to-cart-message');
+            if (!selectedSize) {
+                errorMsg.textContent = "Please select a size!";
+                errorMsg.style.display = 'block';
+                return;
+            }
+            errorMsg.style.display = 'none';
+
+            // Gather data for product
+            const card = document.querySelector('.product-card');
+            const productId = card.getAttribute('data-product-id');
+            const productName = card.querySelector('.product-name').innerText;
+            const priceStr = card.querySelector('.product-price').innerText.replace('$','');
+            const price = parseFloat(priceStr);
+            const colorLabel = card.querySelector('.color-circle.selected + .color-label').innerText;
+
+            // Add to cart (check if already in cart with same details, optionally increase qty)
+            let cart = getCart();
+            // Check for same product/size/color in cart
+            let existing = cart.find(item =>
+                item.productId === productId &&
+                item.size === selectedSize &&
+                item.color === selectedColor
+            );
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    productId, productName,
+                    size: selectedSize, color: selectedColor,
+                    colorLabel,
+                    price, qty: 1
+                });
+            }
+            setCart(cart);
+
+            // Feedback
+            addedMsg.style.display = 'block';
+            setTimeout(() => {
+                addedMsg.style.display = 'none';
+            }, 1500);
+        });
+
+        // On page load, update badge and restore selected if desired
+        updateCartBadge();
+    </script>
 </body>
 </html>

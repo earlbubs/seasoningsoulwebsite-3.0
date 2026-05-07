@@ -1,42 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Checkout - Seasoning Soul</title>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <div class="logo"><a href="/" style="color: #fff; text-decoration: none;">SEASONING SOUL</a></div>
-        </div>
-        <ul class="nav-menu">
-            <li><a href="/mens">MEN'S</a></li>
-            <li><a href="/womens">WOMEN'S</a></li>
-            <li><a href="/kids">KIDS</a></li>
-            <li><a href="/about">ABOUT</a></li>
-        </ul>
-        <div class="cart-icon">
-            <a href="/checkout">🛒</a>
-        </div>
-    </nav>
+<link href="https://fonts.googleapis.com/css2?family=Lacquer&display=swap" rel="stylesheet">
 
-    <canvas id="logoCanvas"></canvas>
+<style>
+  /* 2. Set the background to black */
+  body {
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
 
-    <main>
-        <div class="content">
-            <h1>CHECKOUT</h1>
-            <p>Your checkout page content will go here...</p>
-        </div>
-    </main>
+  /* 3. Style the button */
+  .lacquer-btn {
+    font-family: 'Lacquer', system-ui; /* Use the Lacquer font */
+    background-color: #ffffff;        /* White button */
+    color: #000000;                 /* Black text */
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
 
-    <footer>
-        <p>Copyright Seasoning Soul 2026</p>
-        <p>Website created by Jamison Boykin.</p>
-        <p>Locally Owned and Operated by Earl Twigg. EST. 2026</p>
-    </footer>
+  /* Simple hover effect */
+  .lacquer-btn:hover {
+    background-color: #dddddd;
+    transform: scale(1.05);
+  }
+</style>
 
-    <script src="script.js"></script>
-</body>
-</html>
+<button class="lacquer-btn" onclick="thanks()">
+  ADD TO CART
+</button>
+
+<script>
+  function thanks() {
+    alert("Added!");
+  }
+</script>

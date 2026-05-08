@@ -1,0 +1,23 @@
+async function completeOrder(method) {
+    // 1. Get the items from the cart to include in the text
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let total = cart.reduce((sum, item) => sum + item.price, 0);
+    
+    // Create a simple summary for your text message
+    let orderSummary = cart.map(i => `${i.name} (${i.size})`).join(", ");
+
+    // 2. Send the notification via Formspree
+    const response = await fetch("https://formspree.io/f/YOUR_FORMSPREE_ID", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            message: `NEW ORDER! Method: ${method}. Total: $${total}. Items: ${orderSummary}`,
+            _subject: "New Seasoning Soul Order!"
+        })
+    });
+
+    if (response.ok) {
+        alert("Thanks! We've received your order and will check for payment.");
+        localStorage.removeItem('cart');
+        window.location.href = "index.html"; 
+    } else {

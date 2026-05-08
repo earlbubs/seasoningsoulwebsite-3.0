@@ -1,0 +1,22 @@
+def calculate_order_total(subtotal):
+    # Define the tax rate as a decimal (9.5% = 0.095)
+    TAX_RATE = 0.095
+    
+    # Calculate tax amount
+    tax_amount = subtotal * TAX_RATE
+    
+    # Calculate final total
+    total = subtotal + tax_amount
+    
+    # Return values rounded to 2 decimal places
+    return round(tax_amount, 2), round(total, 2)
+
+# --- Example Usage ---
+order_amount = float(input("Enter the order subtotal: $"))
+tax, final_total = calculate_order_total(order_amount)
+
+print("-" * 30)
+print(f"Subtotal:     ${order_amount:,.2f}")
+print(f"Tax (9.5%):   ${tax:,.2f}")
+print(f"Total Due:    ${final_total:,.2f}")
+print("-" * 30)

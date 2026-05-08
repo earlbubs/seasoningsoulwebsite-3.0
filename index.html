@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="style.css">
     <title>Seasoning Soul - Merch Brand</title>
     <style>
-        /* Styles for your new shipping banner */
+        /* --- Shipping Banner & Base Styles --- */
         .shipping-banner {
-            background-color: #ff4500; /* A bold orange-red to grab attention */
+            background-color: #ff4500;
             color: white;
             text-align: center;
             padding: 10px 0;
@@ -20,10 +20,81 @@
             width: 100%;
         }
 
-        /* Basic reset to ensure the banner touches the very top */
-        body {
-            margin: 0;
-            padding: 0;
+        body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f9f9f9; }
+
+        /* --- Grid Layout (The "Quarter Page" System) --- */
+        .all-sizes {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- Product Card Styles --- */
+        .product-card {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 15px;
+            transition: transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: #87CEEB; /* Light Blue Branding */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+        }
+
+        .category-tag { font-size: 0.7rem; color: #999; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; }
+        .product-name { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
+        .product-price { font-size: 1rem; color: #666; margin-bottom: 15px; }
+
+        /* --- Selectors --- */
+        .detail-label { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; color: #aaa; margin-bottom: 8px; }
+        .selector-group { margin-bottom: 15px; }
+
+        .sizes { display: flex; gap: 5px; }
+        .size-btn {
+            border: 1px solid #ddd; background: #fff; padding: 5px 10px;
+            cursor: pointer; font-size: 0.75rem; transition: 0.2s; flex: 1;
+        }
+        .size-btn.selected { background: #000; color: #fff; border-color: #000; }
+
+        .colors { display: flex; align-items: center; gap: 8px; }
+        .color-swatch {
+            width: 18px; height: 18px; border-radius: 50%;
+            border: 2px solid #333; cursor: pointer;
+        }
+        .color-name { font-size: 0.8rem; color: #666; }
+
+        .add-to-cart-btn {
+            width: 100%; padding: 12px; background: #000; color: #fff;
+            border: none; font-weight: bold; cursor: pointer;
+            text-transform: uppercase; font-size: 0.8rem;
+        }
+
+        .status-msg { font-size: 0.75rem; margin-top: 8px; height: 15px; text-align: center; font-weight: bold; }
+
+        .cart-badge {
+            background: #e33; color: #fff; border-radius: 50%;
+            padding: 2px 6px; font-size: 0.7rem; margin-left: 5px;
+            display: none;
         }
     </style>
 </head>
@@ -44,11 +115,9 @@
             <li><a href="/about">ABOUT</a></li>
         </ul>
         <div class="cart-icon">
-            <a href="/checkout">🛒</a>
+            <a href="/checkout" style="text-decoration:none;">🛒<span id="cart-badge" class="cart-badge">0</span></a>
         </div>
     </nav>
-
-    <canvas id="logoCanvas"></canvas>
 
     <main>
         <div class="hero-section">
@@ -59,7 +128,120 @@
         </div>
 
         <section class="all-sizes">
-            <h2>ALL SHIRTS</h2>
+            <h2 style="text-align: center; margin-bottom: 40px; letter-spacing: 2px;">ALL MERCHANDISE</h2>
+            
+            <div class="products-grid">
+                
+                <div class="product-card" data-id="m-tee-01">
+                    <div class="product-image-placeholder">SEASONING SOUL<br>MEN'S TEE</div>
+                    <div class="category-tag">Men's</div>
+                    <div class="product-name">Signature Tee</div>
+                    <div class="product-price">$20</div>
+                    
+                    <div class="selector-group">
+                        <div class="detail-label">Color</div>
+                        <div class="colors">
+                            <div class="color-swatch" style="background-color: #87CEEB;"></div>
+                            <span class="color-name">Light Blue</span>
+                        </div>
+                    </div>
+
+                    <div class="selector-group">
+                        <div class="detail-label">Size</div>
+                        <div class="sizes">
+                            <button class="size-btn">S</button>
+                            <button class="size-btn">M</button>
+                            <button class="size-btn">L</button>
+                            <button class="size-btn">XL</button>
+                        </div>
+                    </div>
+
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <div class="status-msg"></div>
+                </div>
+
+                <div class="product-card" data-id="w-tee-01">
+                    <div class="product-image-placeholder">SEASONING SOUL<br>WOMEN'S TEE</div>
+                    <div class="category-tag">Women's</div>
+                    <div class="product-name">Signature Tee</div>
+                    <div class="product-price">$20</div>
+                    
+                    <div class="selector-group">
+                        <div class="detail-label">Color</div>
+                        <div class="colors">
+                            <div class="color-swatch" style="background-color: #87CEEB;"></div>
+                            <span class="color-name">Light Blue</span>
+                        </div>
+                    </div>
+
+                    <div class="selector-group">
+                        <div class="detail-label">Size</div>
+                        <div class="sizes">
+                            <button class="size-btn">S</button>
+                            <button class="size-btn">M</button>
+                            <button class="size-btn">L</button>
+                        </div>
+                    </div>
+
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <div class="status-msg"></div>
+                </div>
+
+                <div class="product-card" data-id="b-tee-01">
+                    <div class="product-image-placeholder">SEASONING SOUL<br>BOYS TEE</div>
+                    <div class="category-tag">Boys</div>
+                    <div class="product-name">Essential Tee</div>
+                    <div class="product-price">$20</div>
+                    
+                    <div class="selector-group">
+                        <div class="detail-label">Color</div>
+                        <div class="colors">
+                            <div class="color-swatch" style="background-color: #87CEEB;"></div>
+                            <span class="color-name">Light Blue</span>
+                        </div>
+                    </div>
+
+                    <div class="selector-group">
+                        <div class="detail-label">Size</div>
+                        <div class="sizes">
+                            <button class="size-btn">S</button>
+                            <button class="size-btn">M</button>
+                            <button class="size-btn">L</button>
+                        </div>
+                    </div>
+
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <div class="status-msg"></div>
+                </div>
+
+                <div class="product-card" data-id="g-tee-01">
+                    <div class="product-image-placeholder">SEASONING SOUL<br>GIRLS TEE</div>
+                    <div class="category-tag">Girls</div>
+                    <div class="product-name">Essential Tee</div>
+                    <div class="product-price">$20</div>
+                    
+                    <div class="selector-group">
+                        <div class="detail-label">Color</div>
+                        <div class="colors">
+                            <div class="color-swatch" style="background-color: #87CEEB;"></div>
+                            <span class="color-name">Light Blue</span>
+                        </div>
+                    </div>
+
+                    <div class="selector-group">
+                        <div class="detail-label">Size</div>
+                        <div class="sizes">
+                            <button class="size-btn">S</button>
+                            <button class="size-btn">M</button>
+                            <button class="size-btn">L</button>
+                        </div>
+                    </div>
+
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <div class="status-msg"></div>
+                </div>
+
+            </div>
         </section>
     </main>
 
@@ -69,6 +251,59 @@
         <p>Locally Owned and Operated by Earl Twigg. EST. 2026</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // ADD TO CART SCRIPT
+        document.querySelectorAll('.product-card').forEach(card => {
+            const sizeBtns = card.querySelectorAll('.size-btn');
+            const addBtn = card.querySelector('.add-to-cart-btn');
+            const statusMsg = card.querySelector('.status-msg');
+            let selectedSize = null;
+
+            sizeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sizeBtns.forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedSize = btn.innerText;
+                    statusMsg.innerText = ""; 
+                });
+            });
+
+            addBtn.addEventListener('click', () => {
+                if (!selectedSize) {
+                    statusMsg.style.color = "#d9534f";
+                    statusMsg.innerText = "Please select a size";
+                    return;
+                }
+
+                const item = {
+                    id: card.dataset.id,
+                    name: card.querySelector('.product-name').innerText,
+                    category: card.querySelector('.category-tag').innerText,
+                    color: card.querySelector('.color-name').innerText,
+                    size: selectedSize,
+                    price: 20
+                };
+
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                updateBadge();
+                statusMsg.style.color = "#28a745";
+                statusMsg.innerText = "Added to cart!";
+                setTimeout(() => { statusMsg.innerText = ""; }, 2000);
+            });
+        });
+
+        function updateBadge() {
+            const badge = document.getElementById('cart-badge');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length > 0) {
+                badge.style.display = "inline-block";
+                badge.innerText = cart.length;
+            }
+        }
+        updateBadge();
+    </script>
 </body>
 </html>

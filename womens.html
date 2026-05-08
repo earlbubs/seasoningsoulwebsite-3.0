@@ -4,224 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Women's - Seasoning Soul</title>
-    <link rel="stylesheet" href="style.css">
     <style>
-        /* Your provided styling */
+        /* --- Base Styles & Layout --- */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-menu a { color: #fff; text-decoration: none; font-weight: bold; font-size: 0.85rem; }
+
+        .cart-icon { position: relative; text-decoration: none; }
+        .cart-badge {
+            position: absolute; top: -8px; right: -10px;
+            background: #e33; color: #fff; border-radius: 50%;
+            padding: 2px 6px; font-size: 0.7rem; display: none;
+        }
+
+        /* --- Grid System: This controls the 1/4 page width --- */
+        .content-container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            /* Creates 4 columns on large screens, 2 on tablets, 1 on mobile */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- Product Card Styles --- */
+        .product-card {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 15px;
+            transition: transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #999;
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .product-name { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
+        .product-price { font-size: 1rem; color: #666; margin-bottom: 15px; }
+
+        /* --- Interactions --- */
+        .detail-label { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: #999; margin-bottom: 8px; }
+        
+        .sizes { display: flex; gap: 8px; margin-bottom: 15px; }
+        .size-btn {
+            border: 1px solid #ddd; background: #fff; padding: 5px 12px;
+            cursor: pointer; font-size: 0.8rem; transition: 0.2s;
+        }
+        .size-btn.selected { background: #000; color: #fff; border-color: #000; }
+
+        .fabric-tag { font-size: 0.8rem; background: #f0f0f0; padding: 4px 8px; display: inline-block; margin-bottom: 15px; }
+
         .add-to-cart-btn {
-            background-color: #222;
+            width: 100%;
+            padding: 12px;
+            background: #000;
             color: #fff;
             border: none;
-            padding: 12px 24px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.2s;
-            margin-top: 15px;
-            width: 100%;
             font-weight: bold;
+            cursor: pointer;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
         }
-        .add-to-cart-btn:hover {
-            background: #444;
-        }
-        #add-to-cart-message {
-            color: #28a745;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-            text-align: center;
-            font-weight: bold;
-        }
-        #add-to-cart-error {
-            color: #d9534f;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-            text-align: center;
-        }
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #e33;
-            border-radius: 50%;
-            color: #fff;
-            font-size: 0.75rem;
-            padding: 2px 7px;
-            font-weight: bold;
-        }
-        .cart-icon {
-            position: relative;
-        }
-        .size-btn {
-            background: #eee;
-            border: 1px solid #ccc;
-            margin-right: 8px;
-            padding: 8px 18px;
-            cursor: pointer;
-            border-radius: 3px;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-        .size-btn.selected {
-            background: #222;
-            color: #fff;
-            border-color: #222;
-        }
-        .color-circle {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 1px solid #aaa;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
+
+        .add-to-cart-btn:hover { background: #333; }
+
+        .status-msg { font-size: 0.8rem; margin-top: 8px; height: 18px; text-align: center; }
+
+        footer { text-align: center; padding: 40px; font-size: 0.75rem; color: #aaa; border-top: 1px solid #eee; margin-top: 50px; }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
-        <div class="nav-left">
-            <div class="logo"><a href="/" style="color: #fff; text-decoration: none;">SEASONING SOUL</a></div>
-        </div>
+        <div class="logo"><a href="/" style="color: #fff; text-decoration: none;">SEASONING SOUL</a></div>
         <ul class="nav-menu">
             <li><a href="/mens">MEN'S</a></li>
             <li><a href="/womens">WOMEN'S</a></li>
             <li><a href="/kids">KIDS</a></li>
             <li><a href="/about">ABOUT</a></li>
         </ul>
-        <div class="cart-icon">
-            <a href="/checkout" style="text-decoration: none;">🛒<span id="cart-badge" class="cart-badge" style="display: none;">0</span></a>
-        </div>
+        <a href="/checkout" class="cart-icon">🛒<span id="cart-badge" class="cart-badge">0</span></a>
     </nav>
 
-    <main>
-        <div class="content">
-            <h1>WOMEN'S COLLECTION</h1>
-            <div class="products-grid">
-                <div class="product-card" data-product-id="womens-tshirt-001">
-                    <div class="product-images">
-                        <div class="shirt-showcase">
-                            <div class="shirt-front"><div class="product-image">Front Design</div></div>
-                            <div class="shirt-back"><div class="product-image">Back Design</div></div>
-                        </div>
-                    </div>
-                    <div class="product-name">Seasoning Soul T-Shirt</div>
-                    <div class="product-price" data-price="20">$20</div>
-                    
-                    <div class="product-details-section">
-                        <div class="detail-group">
-                            <div class="detail-label">Sizes</div>
-                            <div class="sizes">
-                                <button class="size-btn" data-size="S">S</button>
-                                <button class="size-btn" data-size="M">M</button>
-                                <button class="size-btn" data-size="L">L</button>
-                                <button class="size-btn" data-size="XL">XL</button>
-                            </div>
-                        </div>
-
-                        <div class="detail-group">
-                            <div class="detail-label">Colors</div>
-                            <div class="colors">
-                                <span class="color-circle" style="background-color: #87CEEB;"></span>
-                                <span class="color-label">Light Blue</span>
-                            </div>
-                        </div>
-
-                        <div class="detail-group">
-                            <div class="detail-label">Fabric type</div>
-                            <div class="fabric-info">
-                                <div class="fabric-item">
-                                    <div class="fabric-type">100% cotton</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="add-to-cart-btn" id="addToCartBtn">Add to Cart</button>
-                        <div id="add-to-cart-message">Added to cart!</div>
-                        <div id="add-to-cart-error">Please select a size!</div>
-                    </div>
+    <main class="content-container">
+        <h1 style="margin-bottom: 30px;">WOMEN'S COLLECTION</h1>
+        
+        <div class="products-grid" id="main-grid">
+            
+            <div class="product-card" data-product-id="w-tee-001">
+                <div class="product-image-placeholder">
+                    SEASONING SOUL<br>100% COTTON TEE
                 </div>
+                
+                <div class="product-name">Signature T-Shirt</div>
+                <div class="product-price">$20</div>
+
+                <div class="detail-label">Select Size</div>
+                <div class="sizes">
+                    <button class="size-btn">S</button>
+                    <button class="size-btn">M</button>
+                    <button class="size-btn">L</button>
+                    <button class="size-btn">XL</button>
+                </div>
+
+                <div class="detail-label">Fabric</div>
+                <div class="fabric-tag">100% Cotton</div>
+
+                <button class="add-to-cart-btn">Add to Cart</button>
+                <div class="status-msg"></div>
             </div>
-        </div>
+            </div>
     </main>
 
     <footer>
-        <p>Copyright Seasoning Soul 2026</p>
-        <p>Website created by Jamison Boykin.</p>
-        <p>Locally Owned and Operated by Earl Twigg. EST. 2026</p>
+        <p>&copy; Seasoning Soul 2026 | Created by Jamison Boykin | EST. 2026</p>
     </footer>
 
     <script>
-        // DOM Elements
-        const sizeButtons = document.querySelectorAll('.size-btn');
-        const addToCartBtn = document.getElementById('addToCartBtn');
-        const successMsg = document.getElementById('add-to-cart-message');
-        const errorMsg = document.getElementById('add-to-cart-error');
-        const cartBadge = document.getElementById('cart-badge');
+        // Logic to handle multiple products in a grid
+        document.querySelectorAll('.product-card').forEach(card => {
+            const sizeBtns = card.querySelectorAll('.size-btn');
+            const addBtn = card.querySelector('.add-to-cart-btn');
+            const statusMsg = card.querySelector('.status-msg');
+            let selectedSize = null;
 
-        let selectedSize = null;
+            // Handle size clicks
+            sizeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sizeBtns.forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedSize = btn.innerText;
+                    statusMsg.innerText = ""; // clear error
+                });
+            });
 
-        // Handle Size Selection
-        sizeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Clear previous selections
-                sizeButtons.forEach(btn => btn.classList.remove('selected'));
-                // Select this one
-                button.classList.add('selected');
-                selectedSize = button.getAttribute('data-size');
-                // Hide error if it was showing
-                errorMsg.style.display = 'none';
+            // Handle add to cart
+            addBtn.addEventListener('click', () => {
+                if (!selectedSize) {
+                    statusMsg.style.color = "red";
+                    statusMsg.innerText = "Please select a size";
+                    return;
+                }
+
+                const item = {
+                    id: card.dataset.productId,
+                    name: card.querySelector('.product-name').innerText,
+                    size: selectedSize,
+                    price: 20
+                };
+
+                // Local Storage Logic
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // Success Feedback
+                updateBadge();
+                statusMsg.style.color = "green";
+                statusMsg.innerText = "Added to cart!";
+                
+                setTimeout(() => { statusMsg.innerText = ""; }, 2000);
             });
         });
 
-        // Handle Add to Cart Click
-        addToCartBtn.addEventListener('click', () => {
-            if (!selectedSize) {
-                errorMsg.style.display = 'block';
-                successMsg.style.display = 'none';
-                return;
-            }
-
-            // Create item object
-            const item = {
-                id: 'womens-tshirt-001',
-                name: 'Seasoning Soul T-Shirt (Women)',
-                price: 20,
-                size: selectedSize,
-                color: 'Light Blue',
-                fabric: '100% Cotton'
-            };
-
-            // Get existing cart or start new one
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart.push(item);
-            localStorage.setItem('cart', JSON.stringify(cart));
-
-            // UI Feedback
-            updateBadge();
-            errorMsg.style.display = 'none';
-            successMsg.style.display = 'block';
-
-            // Reset button message after delay
-            setTimeout(() => {
-                successMsg.style.display = 'none';
-            }, 3000);
-        });
-
-        // Update the red badge number
         function updateBadge() {
+            const badge = document.getElementById('cart-badge');
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             if (cart.length > 0) {
-                cartBadge.style.display = 'inline-block';
-                cartBadge.innerText = cart.length;
-            } else {
-                cartBadge.style.display = 'none';
+                badge.style.display = "block";
+                badge.innerText = cart.length;
             }
         }
 
-        // Initialize badge on page load
-        updateBadge();
+        updateBadge(); // Initialize badge on load
     </script>
 </body>
 </html>

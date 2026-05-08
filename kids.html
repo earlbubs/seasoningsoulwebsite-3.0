@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Men's - Seasoning Soul</title>
+    <title>Kids Collection - Seasoning Soul</title>
     <style>
-        /* --- Base Styles --- */
+        /* --- Base Branding --- */
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
@@ -37,7 +37,7 @@
             padding: 2px 6px; font-size: 0.7rem; display: none;
         }
 
-        /* --- Grid System (The "Quarter Page" Layout) --- */
+        /* --- Grid System (Quarter Page Layout) --- */
         .content-container {
             max-width: 1400px;
             margin: 40px auto;
@@ -46,9 +46,17 @@
 
         .products-grid {
             display: grid;
-            /* This ensures items take up 1/4 of the row on large screens */
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
+            /* Creates 4 columns. If only 2 items exist, they stay on the left. */
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 25px;
+        }
+
+        /* Mobile Responsive: Stack items on small screens */
+        @media (max-width: 900px) {
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .products-grid { grid-template-columns: 1fr; }
         }
 
         /* --- Product Card --- */
@@ -56,42 +64,49 @@
             background: #fff;
             border: 1px solid #eee;
             padding: 15px;
-            transition: transform 0.2s ease;
             display: flex;
             flex-direction: column;
+            transition: transform 0.2s;
         }
 
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .product-card:hover { transform: translateY(-5px); }
 
-        .product-image-placeholder {
+        .product-image {
             width: 100%;
-            height: 300px;
-            background-color: #f0f0f0;
+            height: 280px;
+            background-color: #87CEEB; /* Light Blue Branding */
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: #999;
-            margin-bottom: 15px;
+            color: #fff;
             text-align: center;
-            font-size: 0.8rem;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            border-radius: 2px;
         }
 
-        .product-name { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
-        .product-price { font-size: 1rem; color: #666; margin-bottom: 15px; }
+        .category-label {
+            font-size: 0.7rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
 
-        /* --- Details & Size Buttons --- */
-        .detail-label { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: #999; margin-bottom: 8px; }
-        
-        .sizes { display: flex; gap: 8px; margin-bottom: 15px; }
+        .product-name { font-size: 1rem; font-weight: bold; margin-bottom: 5px; }
+        .product-price { font-size: 1rem; color: #555; margin-bottom: 15px; }
+
+        /* --- Sizes --- */
+        .detail-label { font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; color: #aaa; text-transform: uppercase; }
+        .sizes { display: flex; gap: 5px; margin-bottom: 15px; }
         .size-btn {
-            border: 1px solid #ddd; background: #fff; padding: 5px 12px;
-            cursor: pointer; font-size: 0.8rem; transition: 0.2s;
+            border: 1px solid #ddd; background: #fff; padding: 6px 10px;
+            cursor: pointer; font-size: 0.75rem; flex: 1;
         }
         .size-btn.selected { background: #000; color: #fff; border-color: #000; }
 
-        .fabric-tag { font-size: 0.8rem; background: #f0f0f0; padding: 4px 8px; display: inline-block; margin-bottom: 15px; }
-
+        /* --- Button & Status --- */
         .add-to-cart-btn {
             width: 100%;
             padding: 12px;
@@ -100,14 +115,11 @@
             border: none;
             font-weight: bold;
             cursor: pointer;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
         }
 
-        .add-to-cart-btn:hover { background: #333; }
-
-        .status-msg { font-size: 0.8rem; margin-top: 8px; height: 18px; text-align: center; font-weight: bold; }
+        .status-msg { font-size: 0.75rem; margin-top: 10px; text-align: center; height: 15px; font-weight: bold; }
 
         footer { text-align: center; padding: 40px; font-size: 0.75rem; color: #aaa; border-top: 1px solid #eee; margin-top: 50px; }
     </style>
@@ -126,16 +138,14 @@
     </nav>
 
     <main class="content-container">
-        <h1 style="margin-bottom: 30px;">Kid's COLLECTION</h1>
+        <h1 style="margin-bottom: 30px;">KIDS COLLECTION</h1>
         
-        <div class="products-grid" id="main-grid">
+        <div class="products-grid">
             
-            <div class="product-card" data-product-id="m-tee-001">
-                <div class="product-image-placeholder">
-                    SEASONING SOUL<br>Boys 100% COTTON TEE
-                </div>
-                
-                <div class="product-name">Boys's Signature Tee</div>
+            <div class="product-card" data-id="kids-b-001">
+                <div class="product-image">BOYS<br>LIGHT BLUE TEE</div>
+                <div class="category-label">Boys</div>
+                <div class="product-name">Essential T-Shirt</div>
                 <div class="product-price">$20</div>
 
                 <div class="detail-label">Select Size</div>
@@ -143,15 +153,29 @@
                     <button class="size-btn">S</button>
                     <button class="size-btn">M</button>
                     <button class="size-btn">L</button>
-                    <button class="size-btn">XL</button>
                 </div>
-
-                <div class="detail-label">Fabric</div>
-                <div class="fabric-tag">100% Cotton</div>
 
                 <button class="add-to-cart-btn">Add to Cart</button>
                 <div class="status-msg"></div>
             </div>
+
+            <div class="product-card" data-id="kids-g-001">
+                <div class="product-image">GIRLS<br>LIGHT BLUE TEE</div>
+                <div class="category-label">Girls</div>
+                <div class="product-name">Essential T-Shirt</div>
+                <div class="product-price">$20</div>
+
+                <div class="detail-label">Select Size</div>
+                <div class="sizes">
+                    <button class="size-btn">S</button>
+                    <button class="size-btn">M</button>
+                    <button class="size-btn">L</button>
+                </div>
+
+                <button class="add-to-cart-btn">Add to Cart</button>
+                <div class="status-msg"></div>
+            </div>
+
             </div>
     </main>
 
@@ -160,7 +184,6 @@
     </footer>
 
     <script>
-        // Use a loop to handle all current and future cards
         document.querySelectorAll('.product-card').forEach(card => {
             const sizeBtns = card.querySelectorAll('.size-btn');
             const addBtn = card.querySelector('.add-to-cart-btn');
@@ -179,13 +202,14 @@
             addBtn.addEventListener('click', () => {
                 if (!selectedSize) {
                     statusMsg.style.color = "#d9534f";
-                    statusMsg.innerText = "Please select a size";
+                    statusMsg.innerText = "Select a size";
                     return;
                 }
 
                 const item = {
-                    id: card.dataset.productId,
+                    id: card.dataset.id,
                     name: card.querySelector('.product-name').innerText,
+                    category: card.querySelector('.category-label').innerText,
                     size: selectedSize,
                     price: 20
                 };
@@ -196,7 +220,7 @@
 
                 updateBadge();
                 statusMsg.style.color = "#28a745";
-                statusMsg.innerText = "Added to cart!";
+                statusMsg.innerText = "Added!";
                 
                 setTimeout(() => { statusMsg.innerText = ""; }, 2000);
             });
@@ -210,7 +234,6 @@
                 badge.innerText = cart.length;
             }
         }
-
         updateBadge();
     </script>
 </body>

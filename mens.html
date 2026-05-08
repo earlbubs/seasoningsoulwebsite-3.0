@@ -37,7 +37,7 @@
             padding: 2px 6px; font-size: 0.7rem; display: none;
         }
 
-        /* --- Grid System (The "Quarter Page" Layout) --- */
+        /* --- Grid System --- */
         .content-container {
             max-width: 1400px;
             margin: 40px auto;
@@ -46,7 +46,6 @@
 
         .products-grid {
             display: grid;
-            /* This ensures items take up 1/4 of the row on large screens */
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
         }
@@ -80,15 +79,29 @@
         .product-name { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
         .product-price { font-size: 1rem; color: #666; margin-bottom: 15px; }
 
-        /* --- Details & Size Buttons --- */
+        /* --- Details, Size, & Color Buttons --- */
         .detail-label { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: #999; margin-bottom: 8px; }
         
-        .sizes { display: flex; gap: 8px; margin-bottom: 15px; }
+        .selector-group { margin-bottom: 15px; }
+
+        .sizes { display: flex; gap: 8px; }
         .size-btn {
             border: 1px solid #ddd; background: #fff; padding: 5px 12px;
             cursor: pointer; font-size: 0.8rem; transition: 0.2s;
         }
         .size-btn.selected { background: #000; color: #fff; border-color: #000; }
+
+        .colors { display: flex; align-items: center; gap: 10px; }
+        .color-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .color-swatch.selected { border-color: #333; transform: scale(1.1); }
+        .color-name { font-size: 0.85rem; color: #666; }
 
         .fabric-tag { font-size: 0.8rem; background: #f0f0f0; padding: 4px 8px; display: inline-block; margin-bottom: 15px; }
 
@@ -138,12 +151,22 @@
                 <div class="product-name">Men's Signature Tee</div>
                 <div class="product-price">$20</div>
 
-                <div class="detail-label">Select Size</div>
-                <div class="sizes">
-                    <button class="size-btn">S</button>
-                    <button class="size-btn">M</button>
-                    <button class="size-btn">L</button>
-                    <button class="size-btn">XL</button>
+                <div class="selector-group">
+                    <div class="detail-label">Color</div>
+                    <div class="colors">
+                        <div class="color-swatch selected" style="background-color: #87CEEB;" data-color="Light Blue"></div>
+                        <span class="color-name">Light Blue</span>
+                    </div>
+                </div>
+
+                <div class="selector-group">
+                    <div class="detail-label">Select Size</div>
+                    <div class="sizes">
+                        <button class="size-btn">S</button>
+                        <button class="size-btn">M</button>
+                        <button class="size-btn">L</button>
+                        <button class="size-btn">XL</button>
+                    </div>
                 </div>
 
                 <div class="detail-label">Fabric</div>
@@ -152,7 +175,7 @@
                 <button class="add-to-cart-btn">Add to Cart</button>
                 <div class="status-msg"></div>
             </div>
-            </div>
+        </div>
     </main>
 
     <footer>
@@ -160,11 +183,11 @@
     </footer>
 
     <script>
-        // Use a loop to handle all current and future cards
         document.querySelectorAll('.product-card').forEach(card => {
             const sizeBtns = card.querySelectorAll('.size-btn');
             const addBtn = card.querySelector('.add-to-cart-btn');
             const statusMsg = card.querySelector('.status-msg');
+            const colorName = card.querySelector('.color-name').innerText;
             let selectedSize = null;
 
             sizeBtns.forEach(btn => {
@@ -186,6 +209,7 @@
                 const item = {
                     id: card.dataset.productId,
                     name: card.querySelector('.product-name').innerText,
+                    color: colorName,
                     size: selectedSize,
                     price: 20
                 };

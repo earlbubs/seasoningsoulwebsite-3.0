@@ -64,10 +64,18 @@
             text-align: right;
         }
 
+        .summary-row {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
         .total-row {
             font-size: 1.5rem;
             font-weight: bold;
+            margin-top: 10px;
             margin-bottom: 20px;
+            color: #000;
         }
 
         .checkout-btn {
@@ -110,8 +118,7 @@
     <main class="cart-container">
         <h1>YOUR CART</h1>
         
-        <div id="cart-items-list">
-            </div>
+        <div id="cart-items-list"></div>
 
         <div id="cart-empty-view" class="empty-msg" style="display: none;">
             Your cart is currently empty.
@@ -120,8 +127,15 @@
         </div>
 
         <div id="cart-summary-view" class="cart-summary">
+            <div class="summary-row">
+                SUBTOTAL: $<span id="cart-subtotal">0.00</span>
+            </div>
+            <div class="summary-row">
+                ESTIMATED TAX (9.5%): $<span id="cart-tax">0.00</span>
+            </div>
+            <hr style="border: 0; border-top: 1px solid #eee; width: 30%; margin-left: auto;">
             <div class="total-row">
-                TOTAL: $<span id="cart-total">0</span>
+                TOTAL: $<span id="cart-total">0.00</span>
             </div>
             <button class="checkout-btn" onclick="alert('Checkout process starting...')">PROCEED TO CHECKOUT</button>
         </div>
@@ -136,9 +150,11 @@
             const listContainer = document.getElementById('cart-items-list');
             const summaryView = document.getElementById('cart-summary-view');
             const emptyView = document.getElementById('cart-empty-view');
+            
+            const subtotalDisplay = document.getElementById('cart-subtotal');
+            const taxDisplay = document.getElementById('cart-tax');
             const totalDisplay = document.getElementById('cart-total');
             
-            // Get items from storage
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
             if (cart.length === 0) {
@@ -150,41 +166,3 @@
 
             emptyView.style.display = 'none';
             summaryView.style.display = 'block';
-            listContainer.innerHTML = '';
-
-            let total = 0;
-
-            cart.forEach((item, index) => {
-                total += item.price;
-                
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'cart-item';
-                itemDiv.innerHTML = `
-                    <div class="item-details">
-                        <span class="item-name">${item.name}</span>
-                        <span class="item-meta">${item.category} | ${item.color} | SIZE: ${item.size}</span>
-                        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-                    </div>
-                    <div class="item-price">$${item.price}</div>
-                `;
-                listContainer.appendChild(itemDiv);
-            });
-
-            totalDisplay.innerText = total;
-        }
-
-        function removeItem(index) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            // Remove the specific item by its index
-            cart.splice(index, 1);
-            // Save back to storage
-            localStorage.setItem('cart', JSON.stringify(cart));
-            // Refresh the page view
-            renderCart();
-        }
-
-        // Run the render on page load
-        renderCart();
-    </script>
-</body>
-</html>

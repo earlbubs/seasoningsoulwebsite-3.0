@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Form</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .checkout-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h2 { margin-bottom: 20px; font-weight: 500; }
+
+        .form-section { margin-bottom: 25px; }
+
+        /* Grid Layout for the Image match */
+        .grid-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .full-width { width: 100%; margin-bottom: 15px; }
+
+        .field-group { position: relative; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border: 2px solid #1773b0; /* Blue highlight from your image */
+            padding: 11px; /* Offset for border thickness */
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #707070;
+            margin-bottom: 4px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .checkbox-row input { width: auto; }
+
+        button {
+            width: 100%;
+            background-color: #1773b0;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover { background-color: #125a8a; }
+
+        #shipping-details { display: none; } /* Hidden until Account is "created" */
+    </style>
+</head>
+<body>
+
+<div class="checkout-container">
+    
+    <div id="account-section" class="form-section">
+        <h2>Create Account</h2>
+        <div class="full-width">
+            <label>Email Address</label>
+            <input type="email" placeholder="email@example.com" id="email">
+        </div>
+        <div class="full-width">
+            <label>Password</label>
+            <input type="password" placeholder="Password" id="password">
+        </div>
+        <button onclick="showShipping()">Continue to Shipping</button>
+    </div>
+
+    <div id="shipping-details" class="form-section">
+        <h2>Shipping Address</h2>
+        
+        <div class="full-width">
+            <label>Country/region</label>
+            <select>
+                <option>United States</option>
+                <option>Canada</option>
+                <option>United Kingdom</option>
+            </select>
+        </div>
+
+        <div class="grid-row">
+            <input type="text" placeholder="First name">
+            <input type="text" placeholder="Last name">
+        </div>
+
+        <div class="full-width">
+            <input type="text" placeholder="Address">
+        </div>
+
+        <div class="full-width">
+            <input type="text" placeholder="Apartment, suite, etc (optional)">
+        </div>
+
+        <div class="grid-row" style="grid-template-columns: 1fr 1fr 1fr;">
+            <input type="text" placeholder="City">
+            <select>
+                <option>Alabama</option>
+                <option>California</option>
+                <option>New York</option>
+                </select>
+            <input type="text" placeholder="ZIP code">
+        </div>
+
+        <div class="full-width">
+            <label>Phone</label>
+            <input type="tel" value="+1" placeholder="Phone">
+        </div>
+
+        <div class="checkbox-row">
+            <input type="checkbox" id="default-addr">
+            <label for="default-addr" style="margin:0;">This is my default address</label>
+        </div>
+
+        <button type="submit">Complete Purchase</button>
+    </div>
+</div>
+
+<script>
+    function showShipping() {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('password').value;
+
+        if(email && pass) {
+            document.getElementById('account-section').style.display = 'none';
+            document.getElementById('shipping-details').style.display = 'block';
+        } else {
+            alert("Please fill out your account details first!");
+        }
+    }
+</script>
+
+</body>
+</html>

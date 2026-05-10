@@ -8,16 +8,28 @@
         body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background-color: #f9f9f9; }
         .navbar { background: #000; color: #fff; padding: 15px 5%; display: flex; justify-content: space-between; }
         .cart-container { max-width: 800px; margin: 50px auto; background: #fff; padding: 30px; border: 1px solid #eee; }
-        .cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
         .item-details h3 { margin: 0; font-size: 1.1rem; }
         .item-details p { margin: 5px 0; color: #666; font-size: 0.9rem; }
+        
+        /* Individual Delete Button */
+        .remove-btn { 
+            background: none; 
+            color: #ff4444; 
+            border: 1px solid #ff4444; 
+            padding: 4px 8px; 
+            cursor: pointer; 
+            font-size: 0.75rem; 
+            margin-top: 8px;
+            transition: 0.2s;
+        }
+        .remove-btn:hover { background: #ff4444; color: #fff; }
+
         .total-section { margin-top: 20px; text-align: right; font-weight: bold; font-size: 1.5rem; border-top: 2px solid #000; padding-top: 10px; }
         .empty-msg { text-align: center; color: #999; padding: 40px; }
         
-        /* Button Container */
         .cart-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; margin-top: 20px; }
 
-        /* Purchase Button Styling */
         .purchase-btn {
             background: #000;
             color: #fff;
@@ -34,7 +46,6 @@
         }
         .purchase-btn:hover { background: #333; }
 
-        /* Shipping Notice Styling */
         .shipping-notice {
             font-size: 0.85rem;
             color: #666;
@@ -43,7 +54,7 @@
             font-style: italic;
         }
 
-        .clear-btn { background: none; color: #ff4444; border: none; padding: 5px; cursor: pointer; font-size: 0.8rem; text-decoration: underline; }
+        .clear-btn { background: none; color: #999; border: none; padding: 5px; cursor: pointer; font-size: 0.8rem; text-decoration: underline; }
         .back-link { text-decoration: none; color: #000; font-weight: bold; display: inline-block; margin-bottom: 20px; }
     </style>
 </head>
@@ -66,11 +77,8 @@
 
         <div class="cart-actions" id="cart-actions-box">
             <button class="purchase-btn" onclick="processPurchase()">Purchase Now</button>
-            
-            <!-- Shipping Message Added Here -->
             <p class="shipping-notice">📦 Your merch will be at your home within 3 to 10 days from the time you purchased it.</p>
-            
-            <button class="clear-btn" onclick="clearCart()">Empty Cart</button>
+            <button class="clear-btn" onclick="clearCart()">Empty Entire Cart</button>
         </div>
     </div>
 
@@ -102,6 +110,7 @@
                             <h3>${item.name}</h3>
                             <p>Size: ${item.size} | Color: ${item.color}</p>
                             <p>Quantity: ${item.qty}</p>
+                            <button class="remove-btn" onclick="removeItem(${index})">Remove Item</button>
                         </div>
                         <div class="item-price">
                             $${itemTotal}
@@ -114,8 +123,16 @@
             totalDisplay.innerText = `Total: $${grandTotal}`;
         }
 
+        // Function to remove just one item
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1); // Remove the item at the specific index
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart(); // Refresh the list
+        }
+
         function clearCart() {
-            if(confirm("Are you sure you want to clear your cart?")) {
+            if(confirm("Are you sure you want to clear your entire cart?")) {
                 localStorage.removeItem('cart');
                 displayCart();
             }

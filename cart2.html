@@ -34,6 +34,15 @@
         }
         .purchase-btn:hover { background: #333; }
 
+        /* Shipping Notice Styling */
+        .shipping-notice {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+            text-align: right;
+            font-style: italic;
+        }
+
         .clear-btn { background: none; color: #ff4444; border: none; padding: 5px; cursor: pointer; font-size: 0.8rem; text-decoration: underline; }
         .back-link { text-decoration: none; color: #000; font-weight: bold; display: inline-block; margin-bottom: 20px; }
     </style>
@@ -57,6 +66,10 @@
 
         <div class="cart-actions" id="cart-actions-box">
             <button class="purchase-btn" onclick="processPurchase()">Purchase Now</button>
+            
+            <!-- Shipping Message Added Here -->
+            <p class="shipping-notice">📦 Your merch will be at your home within 3 to 10 days from the time you purchased it.</p>
+            
             <button class="clear-btn" onclick="clearCart()">Empty Cart</button>
         </div>
     </div>
@@ -71,11 +84,11 @@
             if (cart.length === 0) {
                 cartList.innerHTML = '<div class="empty-msg">Your cart is empty.</div>';
                 totalDisplay.innerText = "Total: $0";
-                actionsBox.style.display = "none"; // Hide buttons if cart is empty
+                actionsBox.style.display = "none"; 
                 return;
             }
 
-            actionsBox.style.display = "flex"; // Show buttons if items exist
+            actionsBox.style.display = "flex"; 
             let html = '';
             let grandTotal = 0;
 
@@ -109,13 +122,11 @@
         }
 
         function processPurchase() {
-            // This is where you would normally send the user to a payment gateway
-            alert("Thank you for your purchase from Seasoning Soul! This is a demo - your order has been processed.");
-            localStorage.removeItem('cart'); // Clear cart after "purchase"
-            window.location.href = "index.html"; // Redirect back to shop
+            alert("Thank you for your purchase from Seasoning Soul! Your merch will be at your home within 3 to 10 days.");
+            localStorage.removeItem('cart'); 
+            window.location.href = "index.html"; 
         }
 
-        // Load the cart as soon as the page opens
         displayCart();
     </script>
 </body>

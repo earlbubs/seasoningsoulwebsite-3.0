@@ -8,7 +8,14 @@
 
 body {
     font-family: 'Lacquer', sans-serif;
-    background-color: #f5f5f5;
+    /* --- BACKGROUND IMAGE ADDED HERE --- */
+    background-image: url('Seasoning Soul Banner (12).jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #f5f5f5; /* Fallback color */
+    /* ---------------------------------- */
     color: #000;
     overflow-x: hidden;
     display: flex;
@@ -88,7 +95,8 @@ main {
 .hero-section {
     position: relative;
     height: 500px;
-    background: linear-gradient(180deg, #e0e0e0 0%, #f5f5f5 100%);
+    /* Made transparent to show background */
+    background: linear-gradient(180deg, rgba(224, 224, 224, 0.2) 0%, rgba(245, 245, 245, 0.5) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,7 +127,8 @@ main {
 .all-sizes {
     padding: 60px 40px;
     text-align: left;
-    background-color: #f5f5f5;
+    /* Semi-transparent to let background peek through */
+    background-color: rgba(245, 245, 245, 0.8);
     position: relative;
     z-index: 10;
 }
@@ -136,7 +145,8 @@ main {
     padding: 60px 40px;
     position: relative;
     z-index: 10;
-    background-color: #f5f5f5;
+    /* Semi-transparent to let background peek through */
+    background-color: rgba(245, 245, 245, 0.8);
     flex: 1;
 }
 
@@ -149,7 +159,7 @@ main {
 
 /* About Section */
 .about-section {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

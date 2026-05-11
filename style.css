@@ -1,432 +1,162 @@
-@import url('https://fonts.googleapis.com/css2?family=Lacquer&display=swap');
+/* --- Shopping Cart Specific Styles --- */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Lacquer', sans-serif;
-<img src="blob:https://gemini.google.com/b0beed90-37d0-4ccf-98f1-dac03f8bce96" alt="Selected image presented in a lightbox."/>    background-image: url('Seasoning Soul Banner (12).jpg');
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: #f5f5f5; /* Fallback color */
-    /* ---------------------------------- */
-    color: #000;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-main {
-    flex: 1;
-}
-
-/* Navigation */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background-color: #000;
-    color: #fff;
-    position: relative;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    font-family: 'Lacquer', sans-serif;
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 30px;
-}
-
-.nav-menu a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    transition: opacity 0.3s ease;
-    font-family: 'Lacquer', sans-serif;
-}
-
-.nav-menu a:hover {
-    opacity: 0.7;
-}
-
-.cart-icon {
-    font-size: 24px;
-}
-
-.cart-icon a {
-    color: #fff;
-    text-decoration: none;
-    transition: transform 0.3s ease;
-}
-
-.cart-icon a:hover {
-    transform: scale(1.1);
-}
-
-/* Canvas for screensaver */
-#logoCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Hero Section */
-.hero-section {
-    position: relative;
-    height: 500px;
-    /* Made transparent to show background */
-    background: linear-gradient(180deg, rgba(224, 224, 224, 0.2) 0%, rgba(245, 245, 245, 0.5) 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
-.hero-content {
-    text-align: center;
-}
-
-.hero-content h1 {
-    font-size: 72px;
-    font-weight: bold;
-    letter-spacing: 4px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    font-family: 'Lacquer', sans-serif;
-}
-
-.hero-content p {
-    font-size: 32px;
-    font-weight: 300;
-    letter-spacing: 3px;
-    font-family: 'Lacquer', sans-serif;
-}
-
-/* All Sizes Section */
-.all-sizes {
-    padding: 60px 40px;
-    text-align: left;
-    /* Semi-transparent to let background peek through */
-    background-color: rgba(245, 245, 245, 0.8);
-    position: relative;
-    z-index: 10;
-}
-
-.all-sizes h2 {
-    font-size: 32px;
-    letter-spacing: 2px;
-    font-weight: 300;
-    font-family: 'Lacquer', sans-serif;
-}
-
-/* Content Section */
-.content {
-    padding: 60px 40px;
-    position: relative;
-    z-index: 10;
-    /* Semi-transparent to let background peek through */
-    background-color: rgba(245, 245, 245, 0.8);
-    flex: 1;
-}
-
-.content h1 {
-    font-size: 48px;
-    margin-bottom: 40px;
-    font-family: 'Lacquer', sans-serif;
-    letter-spacing: 2px;
-}
-
-/* About Section */
-.about-section {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    line-height: 1.8;
-}
-
-.about-text {
-    font-size: 16px;
-    margin-bottom: 20px;
-    color: #333;
-    font-family: 'Lacquer', sans-serif;
-}
-
-.contact-info {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 2px solid #e0e0e0;
-}
-
-.contact-info p {
-    font-size: 16px;
-    font-family: 'Lacquer', sans-serif;
-}
-
-.contact-info a {
-    color: #0066cc;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.contact-info a:hover {
-    color: #004499;
-    text-decoration: underline;
-}
-
-/* Product Grid */
-.products-grid {
+.cart-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 40px;
+    z-index: 10;
+    position: relative;
 }
 
-.product-card {
-    background-color: #fff;
-    padding: 20px;
+.cart-items-wrapper {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
+.cart-header {
+    font-family: 'Lacquer', sans-serif;
+    font-size: 36px;
+    border-bottom: 3px solid #000;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
-.product-images {
-    margin-bottom: 15px;
-}
-
-.shirt-showcase {
+.cart-item {
     display: flex;
-    gap: 15px;
-    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+    gap: 20px;
 }
 
-.shirt-front,
-.shirt-back {
-    flex: 1;
-}
-
-.product-image {
-    width: 100%;
-    height: 250px;
+.cart-item img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
     background-color: #e0e0e0;
     border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: #666;
-    font-family: 'Lacquer', sans-serif;
 }
 
-.product-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-bottom: 15px;
+.cart-item-info {
+    flex: 1;
 }
 
-.product-name {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-family: 'Lacquer', sans-serif;
-}
-
-.product-price {
+.cart-item-info h3 {
     font-size: 24px;
-    color: #000;
-    font-weight: bold;
-    margin-bottom: 15px;
     font-family: 'Lacquer', sans-serif;
+    margin-bottom: 5px;
 }
 
-.product-details {
+.cart-item-details {
+    font-family: 'Lacquer', sans-serif;
     font-size: 14px;
-    color: #666;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-/* Product Details Modal/Section */
-.product-details-section {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 4px;
-    margin-top: 15px;
-    border: 1px solid #e0e0e0;
-}
-
-.details-title {
-    font-size: 28px;
-    margin-bottom: 20px;
-    font-family: 'Lacquer', sans-serif;
-}
-
-.detail-group {
-    margin-bottom: 20px;
-}
-
-.detail-label {
-    font-size: 16px;
-    font-weight: bold;
+    color: #444;
     margin-bottom: 10px;
-    font-family: 'Lacquer', sans-serif;
-    text-decoration: underline;
-    display: block;
 }
 
-.sizes {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.size-btn {
-    width: 50px;
-    height: 50px;
+/* Quantity Controls matching your size-btn style */
+.qty-btn {
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
-    background-color: #999;
+    background-color: #000;
     color: #fff;
     border: none;
     cursor: pointer;
-    font-size: 12px;
+    font-family: 'Lacquer', sans-serif;
+    transition: transform 0.2s;
+}
+
+.qty-btn:hover {
+    background-color: #333;
+    transform: scale(1.1);
+}
+
+.qty-count {
+    padding: 0 15px;
+    font-size: 18px;
     font-weight: bold;
-    transition: all 0.3s ease;
-    font-family: 'Lacquer', sans-serif;
 }
 
-.size-btn:hover {
-    background-color: #666;
-    transform: scale(1.1);
-}
-
-.colors {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.color-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 3px solid #ccc;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.color-circle:hover {
-    transform: scale(1.1);
-    border-color: #000;
-}
-
-.color-label {
-    font-size: 14px;
-    color: #666;
-    font-family: 'Lacquer', sans-serif;
-}
-
-.fabric-info {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.fabric-item {
-    flex: 1;
-    min-width: 200px;
-}
-
-.fabric-type {
-    font-size: 16px;
+.cart-item-price {
+    font-size: 22px;
     font-weight: bold;
     font-family: 'Lacquer', sans-serif;
 }
 
-/* Footer */
-footer {
+/* Summary Sidebar */
+.cart-summary {
     background-color: #000;
     color: #fff;
-    text-align: center;
-    padding: 30px 20px;
-    margin-top: 40px;
-    font-size: 12px;
-    line-height: 1.8;
+    padding: 30px;
+    border-radius: 8px;
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.cart-summary h2 {
     font-family: 'Lacquer', sans-serif;
-    letter-spacing: 0.5px;
+    font-size: 28px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
 }
 
-footer p {
-    margin: 5px 0;
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    font-family: 'Lacquer', sans-serif;
+    letter-spacing: 1px;
 }
 
-/* Responsive */
+.summary-total {
+    font-size: 24px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px dashed #555;
+    color: #fff;
+}
+
+.checkout-button {
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 15px;
+    font-family: 'Lacquer', sans-serif;
+    font-size: 20px;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.checkout-button:hover {
+    background-color: #e0e0e0;
+    letter-spacing: 3px;
+}
+
+/* Mobile Adjustments for Cart */
 @media (max-width: 768px) {
-    .navbar {
-        flex-wrap: wrap;
-        padding: 15px 20px;
-    }
-
-    .nav-menu {
-        gap: 15px;
-        font-size: 12px;
-    }
-
-    .hero-content h1 {
-        font-size: 48px;
-    }
-
-    .hero-content p {
-        font-size: 24px;
-    }
-
-    .all-sizes h2 {
-        font-size: 24px;
-    }
-
-    .content h1 {
-        font-size: 32px;
-    }
-
-    .products-grid {
+    .cart-container {
         grid-template-columns: 1fr;
+        padding: 0 20px;
     }
-
-    .shirt-showcase {
+    
+    .cart-item {
         flex-direction: column;
+        text-align: center;
     }
-
-    .fabric-info {
-        flex-direction: column;
-    }
-
-    .about-text {
-        font-size: 14px;
+    
+    .cart-item img {
+        margin-right: 0;
     }
 }

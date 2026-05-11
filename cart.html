@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopping Cart</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      background:#f4f4f4;
+      padding:40px;
+    }
+
+    .cart-container{
+      max-width:900px;
+      margin:auto;
+      background:white;
+      padding:25px;
+      border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:25px;
+      color:#222;
+    }
+
+    .cart-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:15px 0;
+      border-bottom:1px solid #ddd;
+      gap:15px;
+    }
+
+    .cart-left{
+      display:flex;
+      align-items:center;
+      gap:15px;
+    }
+
+    .cart-item img{
+      width:90px;
+      height:90px;
+      object-fit:cover;
+      border-radius:10px;
+    }
+
+    .item-info h2{
+      font-size:18px;
+      color:#222;
+      margin-bottom:5px;
+    }
+
+    .item-info p{
+      color:#666;
+      font-size:14px;
+    }
+
+    .price{
+      font-size:18px;
+      font-weight:bold;
+      color:#111;
+    }
+
+    .qty-box{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .qty-btn{
+      width:30px;
+      height:30px;
+      border:none;
+      background:#222;
+      color:white;
+      font-size:18px;
+      border-radius:6px;
+      cursor:pointer;
+    }
+
+    .delete-btn{
+      background:red;
+      color:white;
+      border:none;
+      padding:8px 14px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .bottom{
+      margin-top:25px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:15px;
+    }
+
+    .total{
+      font-size:24px;
+      font-weight:bold;
+      color:#111;
+    }
+
+    .checkout-btn{
+      background:#28a745;
+      color:white;
+      border:none;
+      padding:14px 24px;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .clear-btn{
+      background:#111;
+      color:white;
+      border:none;
+      padding:14px 24px;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .empty{
+      text-align:center;
+      color:#777;
+      padding:30px;
+      font-size:20px;
+    }
+
+    @media(max-width:700px){
+      .cart-item{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .bottom{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cart-container">
+    <h1>Your Cart</h1>
+
+    <div id="cart-items">
+
+      <div class="cart-item">
+        <div class="cart-left">
+          <img src="https://picsum.photos/100?1" alt="">
+          
+          <div class="item-info">
+            <h2>Black Hoodie</h2>
+            <p>Comfort Fit</p>
+          </div>
+        </div>
+
+        <div class="qty-box">
+          <button class="qty-btn minus">-</button>
+          <span class="qty">1</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+
+        <div class="price" data-price="45">$45</div>
+
+        <button class="delete-btn">Delete</button>
+      </div>
+
+      <div class="cart-item">
+        <div class="cart-left">
+          <img src="https://picsum.photos/100?2" alt="">
+          
+          <div class="item-info">
+            <h2>White Sneakers</h2>
+            <p>Limited Edition</p>
+          </div>
+        </div>
+
+        <div class="qty-box">
+          <button class="qty-btn minus">-</button>
+          <span class="qty">2</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+
+        <div class="price" data-price="70">$140</div>
+
+        <button class="delete-btn">Delete</button>
+      </div>
+
+    </div>
+
+    <div class="bottom">
+      <div class="total">
+        Total: $<span id="total">185</span>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button class="clear-btn" id="clear-cart">
+          Delete All
+        </button>
+
+        <button class="checkout-btn">
+          Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cartItems = document.getElementById("cart-items");
+    const totalElement = document.getElementById("total");
+
+    function updateTotal() {
+      let total = 0;
+
+      document.querySelectorAll(".cart-item").forEach(item => {
+        const qty = parseInt(item.querySelector(".qty").textContent);
+        const pricePerItem = parseInt(
+          item.querySelector(".price").dataset.price
+        );
+
+        const finalPrice = qty * pricePerItem;
+
+        item.querySelector(".price").textContent =
+          "$" + finalPrice;
+
+        total += finalPrice;
+      });
+
+      totalElement.textContent = total;
+
+      if(document.querySelectorAll(".cart-item").length === 0){
+        cartItems.innerHTML =
+          '<div class="empty">Your cart is empty.</div>';
+
+        totalElement.textContent = "0";
+      }
+    }
+
+    document.addEventListener("click", function(e){
+
+      // PLUS
+      if(e.target.classList.contains("plus")){
+        const qty =
+          e.target.parentElement.querySelector(".qty");
+
+        qty.textContent =
+          parseInt(qty.textContent) + 1;
+
+        updateTotal();
+      }
+
+      // MINUS
+      if(e.target.classList.contains("minus")){
+        const qty =
+          e.target.parentElement.querySelector(".qty");
+
+        let current = parseInt(qty.textContent);
+
+        if(current > 1){
+          qty.textContent = current - 1;
+        }
+
+        updateTotal();
+      }
+
+      // DELETE ITEM
+      if(e.target.classList.contains("delete-btn")){
+        e.target.parentElement.remove();
+        updateTotal();
+      }
+    });
+
+    // DELETE ALL
+    document.getElementById("clear-cart")
+      .addEventListener("click", () => {
+
+      cartItems.innerHTML =
+        '<div class="empty">Your cart is empty.</div>';
+
+      totalElement.textContent = "0";
+    });
+
+    updateTotal();
+  </script>
+
+</body>
+</html>

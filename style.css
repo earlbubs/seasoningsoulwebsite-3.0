@@ -1,3 +1,26 @@
+/* --- Global Background Setup --- */
+body {
+    /* Replace the filename below with the exact name of your saved image */
+    background-image: url("Seasoning Soul Banner (14).jpg");
+    
+    /* This keeps the image from repeating and makes it cover the whole screen */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* This keeps the background still while you scroll */
+    background-repeat: no-repeat;
+    
+    /* Fallback color in case the image fails to load */
+    background-color: #0088cc; 
+    
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* --- Your Existing Shopping Cart Styles --- */
+.cart-container {
+    display: grid;
+    /* ... the rest of your code ... */
 /* --- Shopping Cart Specific Styles --- */
 
 .cart-container {

@@ -30,24 +30,10 @@
 
         h1 {
             font-family: var(--primary-font);
-            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-size: 3rem;
             text-align: center;
             margin-bottom: 40px;
             color: var(--accent-color);
-            text-transform: uppercase;
-        }
-
-        /* Container for items added via JavaScript */
-        #cart-items-list {
-            margin-bottom: 20px;
-        }
-
-        .empty-msg {
-            text-align: center;
-            font-family: var(--primary-font);
-            font-size: 1.5rem;
-            opacity: 0.6;
-            padding: 50px 0;
         }
 
         .cart-item {
@@ -58,17 +44,9 @@
             border-radius: 12px;
             margin-bottom: 15px;
             border: 1px solid #444;
-            animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .item-details {
-            flex-grow: 1;
-        }
+        .item-details { flex-grow: 1; }
 
         .item-name {
             font-family: var(--primary-font);
@@ -83,13 +61,7 @@
             padding: 8px 16px;
             cursor: pointer;
             font-family: var(--primary-font);
-            transition: all 0.2s;
             border-radius: 4px;
-        }
-
-        .remove-btn:hover {
-            background: var(--accent-color);
-            color: white;
         }
 
         .cart-summary {
@@ -97,6 +69,12 @@
             text-align: right;
             padding: 20px;
             border-top: 2px solid #444;
+        }
+
+        .total-display {
+            font-family: var(--primary-font);
+            font-size: 2rem;
+            margin-bottom: 15px;
         }
 
         .checkout-btn {
@@ -108,58 +86,72 @@
             font-size: 1.8rem;
             cursor: pointer;
             width: 100%;
-            transition: 0.3s;
         }
 
-        .checkout-btn:disabled {
-            background-color: #444;
-            color: #888;
-            cursor: not-allowed;
-        }
-
-        .checkout-btn:not(:disabled):hover {
-            background-color: var(--accent-color);
-            color: #fff;
+        .empty-msg {
+            text-align: center;
+            font-family: var(--primary-font);
+            opacity: 0.5;
+            font-size: 1.5rem;
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
 
-    <div class="cart-container">
-        <h1>Shopping Bag</h1>
-
-        <div id="cart-items-list">
-            <div class="empty-msg">YOUR BAG IS CURRENTLY EMPTY</div>
-        </div>
-
-        <div class="cart-summary">
-            <button id="checkout-btn" class="checkout-btn" disabled>
-                CHECKOUT
-            </button>
-        </div>
+<div class="cart-container">
+    <h1>Your Bag</h1>
+    <div id="cart-items-wrapper"></div>
+    
+    <div class="cart-summary">
+        <div id="total-price" class="total-display">Total: $0.00</div>
+        <button class="checkout-btn" id="checkout-btn">CHECKOUT</button>
     </div>
+</div>
 
-    <script>
-        // Simple function to remove an item (logic for your dev team)
-        document.addEventListener('click', function(e) {
-            if(e.target && e.target.classList.contains('remove-btn')) {
-                const item = e.target.closest('.cart-item');
-                item.style.opacity = '0';
-                setTimeout(() => {
-                    item.remove();
-                    checkEmpty();
-                }, 200);
-            }
+<script>
+    const wrapper = document.getElementById('cart-items-wrapper');
+    const totalDisplay = document.getElementById('total-price');
+
+    function renderCart() {
+        const cart = JSON.parse(localStorage.getItem('myCart')) || [];
+        wrapper.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            wrapper.innerHTML = '<div class="empty-msg">CART IS EMPTY</div>';
+            document.getElementById('checkout-btn').style.display = 'none';
+            totalDisplay.innerHTML = '';
+            return;
+        }
+
+        cart.forEach((item, index) => {
+            total += item.price;
+            wrapper.innerHTML += `
+                <div class="cart-item">
+                    <div class="item-details">
+                        <p class="item-name">${item.name}</p>
+                        <p>$${item.price.toFixed(2)}</p>
+                    </div>
+                    <button class="remove-btn" onclick="removeItem(${index})">REMOVE</button>
+                </div>
+            `;
         });
 
-        function checkEmpty() {
-            const list = document.getElementById('cart-items-list');
-            const checkout = document.getElementById('checkout-btn');
-            if (list.children.length === 0) {
-                list.innerHTML = '<div class="empty-msg">YOUR BAG IS CURRENTLY EMPTY</div>';
-                checkout.disabled = true;
-            }
-        }
-    </script>
+        totalDisplay.innerHTML = `Total: $${total.toFixed(2)}`;
+        document.getElementById('checkout-btn').style.display = 'block';
+    }
+
+    function removeItem(index) {
+        let cart = JSON.parse(localStorage.getItem('myCart'));
+        cart.splice(index, 1); // Remove the item from array
+        localStorage.setItem('myCart', JSON.stringify(cart));
+        renderCart(); // Refresh the page list
+    }
+
+    // Run on load
+    renderCart();
+</script>
+
 </body>
 </html>

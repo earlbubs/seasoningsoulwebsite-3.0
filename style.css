@@ -18,7 +18,14 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             line-height: 1.6;
-            background-color: #fff;
+            
+            /* --- BACKGROUND IMAGE ADDED HERE --- */
+            background-image: url('YOUR_IMAGE_URL_HERE.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Keeps image from moving when scrolling */
+            background-color: #fff; /* Fallback color */
         }
 
         .navbar {
@@ -36,6 +43,7 @@
             letter-spacing: 2px;
             color: white;
             text-decoration: none;
+            font-family: 'Lacquer', sans-serif; /* Applied branding font to logo */
         }
 
         .nav-menu {
@@ -65,7 +73,8 @@
         }
 
         .cart-items-wrapper {
-            background-color: rgba(255, 255, 255, 0.9);
+            /* Note: The 0.9 opacity here lets your new background peek through */
+            background-color: rgba(255, 255, 255, 0.9); 
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -113,4 +122,9 @@
             margin-bottom: 10px;
         }
 
-        .qty-btn {
+        /* Rest of your CSS continues... */
+    </style>
+</head>
+<body>
+    </body>
+</html>

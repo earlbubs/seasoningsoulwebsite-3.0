@@ -82,10 +82,16 @@
                 Complete Purchase
             </button>
         </form>
+
+        <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+            <p class="text-gray-600 text-sm">
+                Already have an account? 
+                <a href="/login" class="text-blue-600 font-semibold hover:underline ml-1">Sign in</a>
+            </p>
+        </div>
     </div>
 
     <script>
-        // Array of 50 US States
         const states = [
             "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", 
             "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", 
@@ -96,7 +102,6 @@
             "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ];
 
-        // Populate the dropdown
         const stateSelect = document.getElementById('stateSelect');
         states.forEach(state => {
             const option = document.createElement('option');
@@ -105,7 +110,6 @@
             stateSelect.appendChild(option);
         });
 
-        // Form Submit Logic
         document.getElementById('checkoutForm').addEventListener('submit', (e) => {
             e.preventDefault();
             alert("Account created and order processed!");

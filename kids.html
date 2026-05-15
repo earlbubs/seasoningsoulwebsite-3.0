@@ -13,9 +13,10 @@
             color: #333;
         }
 
+        /* Adjusted for closer menu items */
         .navbar {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; 
             align-items: center;
             padding: 15px 5%;
             background-color: #000;
@@ -26,18 +27,22 @@
             display: flex;
             list-style: none;
             gap: 20px;
+            margin: 0;
+            padding: 0;
+            margin-left: 60px; /* Controls distance from logo */
         }
 
         .nav-menu a { color: #fff; text-decoration: none; font-weight: bold; font-size: 0.85rem; }
 
-        .cart-icon { position: relative; text-decoration: none; }
+        .cart-icon { margin-left: auto; position: relative; text-decoration: none; color: #fff; }
+        
         .cart-badge {
             position: absolute; top: -8px; right: -10px;
             background: #e33; color: #fff; border-radius: 50%;
             padding: 2px 6px; font-size: 0.7rem; display: none;
         }
 
-        /* --- Grid System (Quarter Page Layout) --- */
+        /* --- Grid System --- */
         .content-container {
             max-width: 1400px;
             margin: 40px auto;
@@ -83,7 +88,7 @@
         .product-name { font-size: 1rem; font-weight: bold; margin-bottom: 5px; }
         .product-price { font-size: 1rem; color: #555; margin-bottom: 15px; }
 
-        /* --- Selectors (Size & Color) --- */
+        /* --- Selectors --- */
         .detail-label { font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; color: #aaa; text-transform: uppercase; }
         
         .selector-group { margin-bottom: 15px; }
@@ -95,14 +100,19 @@
         }
         .size-btn.selected { background: #000; color: #fff; border-color: #000; }
 
+        /* Quantity Input Style */
+        .quantity-input {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
         .colors { display: flex; align-items: center; gap: 10px; }
         .color-swatch {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: 0.2s;
+            width: 20px; height: 20px; border-radius: 50%;
+            border: 2px solid transparent; cursor: pointer; transition: 0.2s;
         }
         .color-swatch.selected { border-color: #333; transform: scale(1.1); }
         .color-name { font-size: 0.8rem; color: #666; }
@@ -167,6 +177,11 @@
                     </div>
                 </div>
 
+                <div class="selector-group">
+                    <div class="detail-label">Quantity</div>
+                    <input type="number" class="quantity-input" value="1" min="1">
+                </div>
+
                 <button class="add-to-cart-btn">Add to Cart</button>
                 <div class="status-msg"></div>
             </div>
@@ -195,6 +210,11 @@
                     </div>
                 </div>
 
+                <div class="selector-group">
+                    <div class="detail-label">Quantity</div>
+                    <input type="number" class="quantity-input" value="1" min="1">
+                </div>
+
                 <button class="add-to-cart-btn">Add to Cart</button>
                 <div class="status-msg"></div>
             </div>
@@ -212,6 +232,7 @@
             const addBtn = card.querySelector('.add-to-cart-btn');
             const statusMsg = card.querySelector('.status-msg');
             const colorName = card.querySelector('.color-name').innerText;
+            const quantityInput = card.querySelector('.quantity-input');
             let selectedSize = null;
 
             sizeBtns.forEach(btn => {
@@ -230,21 +251,32 @@
                     return;
                 }
 
+                const qty = parseInt(quantityInput.value) || 1;
+
                 const item = {
                     id: card.dataset.id,
                     name: card.querySelector('.product-name').innerText,
                     color: colorName,
                     size: selectedSize,
-                    price: 20
+                    price: 20,
+                    quantity: qty
                 };
 
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                cart.push(item);
+                
+                // Add new item or update existing
+                const existingIndex = cart.findIndex(i => i.id === item.id && i.size === item.size);
+                if (existingIndex > -1) {
+                    cart[existingIndex].quantity += qty;
+                } else {
+                    cart.push(item);
+                }
+
                 localStorage.setItem('cart', JSON.stringify(cart));
 
                 updateBadge();
                 statusMsg.style.color = "#28a745";
-                statusMsg.innerText = "Added to Cart!";
+                statusMsg.innerText = `Added ${qty} to Cart!`;
                 
                 setTimeout(() => { statusMsg.innerText = ""; }, 2000);
             });
@@ -253,9 +285,13 @@
         function updateBadge() {
             const badge = document.getElementById('cart-badge');
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            if (cart.length > 0) {
+            const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+            
+            if (totalItems > 0) {
                 badge.style.display = "block";
-                badge.innerText = cart.length;
+                badge.innerText = totalItems;
+            } else {
+                badge.style.display = "none";
             }
         }
         updateBadge();

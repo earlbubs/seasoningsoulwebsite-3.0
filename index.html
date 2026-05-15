@@ -21,9 +21,9 @@
 
         body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f9f9f9; }
 
-        /* --- UPDATED NAVBAR (To match image) --- */
+        /* --- NAVBAR --- */
         .navbar {
-            background-color: #000; /* Black background from image */
+            background-color: #000;
             padding: 20px 40px;
             display: flex;
             justify-content: space-between;
@@ -56,15 +56,9 @@
             transition: opacity 0.2s;
         }
 
-        .nav-menu li a:hover {
-            opacity: 0.7;
-        }
+        .nav-menu li a:hover { opacity: 0.7; }
 
-        .cart-icon a {
-            color: white;
-            font-size: 1.2rem;
-            position: relative;
-        }
+        .cart-icon a { color: white; font-size: 1.2rem; position: relative; }
 
         /* --- Grid Layout & Products --- */
         .all-sizes {
@@ -90,18 +84,22 @@
 
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
 
+        /* --- UPDATED FOR REAL IMAGES --- */
         .product-image-placeholder {
             width: 100%;
-            height: 250px;
-            background-color: #87CEEB;
+            height: 350px; /* Increased height to better showcase the apparel */
+            background-color: #f0f0f0;
+            margin-bottom: 15px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 0.8rem;
+        }
+
+        .product-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This keeps the shirt centered and crisp */
         }
 
         .category-tag { font-size: 0.7rem; color: #999; text-transform: uppercase; margin-bottom: 5px; font-weight: bold; }
@@ -150,7 +148,6 @@
 
     <nav class="navbar">
         <div class="logo">SEASONING SOUL</div>
-        
         <ul class="nav-menu">
             <li><a href="/mens">MEN'S</a></li>
             <li><a href="/womens">WOMEN'S</a></li>
@@ -168,7 +165,9 @@
             
             <div class="products-grid">
                 <div class="product-card" data-id="m-tee-01">
-                    <div class="product-image-placeholder">SEASONING SOUL<br>MEN'S TEE</div>
+                    <div class="product-image-placeholder">
+                        <img src="blob:chrome-untrusted://media-app/fe9ee8d9-c435-4c39-93fc-032b3516f097" alt="Men's Signature Tee">
+                    </div>
                     <div class="category-tag">Men's</div>
                     <div class="product-name">Signature Tee</div>
                     <div class="product-price">$20</div>
@@ -196,7 +195,9 @@
                 </div>
 
                 <div class="product-card" data-id="w-tee-01">
-                    <div class="product-image-placeholder">SEASONING SOUL<br>WOMEN'S TEE</div>
+                    <div class="product-image-placeholder">
+                        <img src="blob:chrome-untrusted://media-app/8a369b76-eb9f-4aee-8f77-ec764d1b9517" alt="Women's Signature Tee">
+                    </div>
                     <div class="category-tag">Women's</div>
                     <div class="product-name">Signature Tee</div>
                     <div class="product-price">$20</div>
@@ -233,7 +234,6 @@
     </footer>
 
     <script>
-        // Updated Badge and Cart Logic
         document.querySelectorAll('.product-card').forEach(card => {
             const sizeBtns = card.querySelectorAll('.size-btn');
             const addBtn = card.querySelector('.add-to-cart-btn');

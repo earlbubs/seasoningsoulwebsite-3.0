@@ -19,13 +19,16 @@
             margin: 0;
             line-height: 1.6;
             
-            /* --- BACKGROUND IMAGE ADDED HERE --- */
-            background-image: url<img src="blob:chrome-untrusted://media-app/18aac924-fca0-4dc8-b8b2-24b02e2c22fe" alt="Seasoning Soul Banner (15).png"/>; 
+            /* --- FIXED BACKGROUND IMAGE --- */
+            /* Note: Replace 'your-image-filename.png' with the actual name of the file in your GitHub repo */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), 
+                              url('seasoning-soul-banner.png'); 
+            
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: fixed; /* Keeps image from moving when scrolling */
-            background-color: #fff; /* Fallback color */
+            background-attachment: fixed; 
+            background-color: #fff; 
         }
 
         .navbar {
@@ -43,7 +46,7 @@
             letter-spacing: 2px;
             color: white;
             text-decoration: none;
-            font-family: 'Lacquer', sans-serif; /* Applied branding font to logo */
+            font-family: 'Lacquer', sans-serif; 
         }
 
         .nav-menu {
@@ -60,7 +63,7 @@
             font-size: 0.9rem;
         }
 
-        /* --- YOUR SPECIFIC SHOPPING CART STYLES --- */
+        /* --- SHOPPING CART STYLES --- */
         .cart-container {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -73,11 +76,11 @@
         }
 
         .cart-items-wrapper {
-            /* Note: The 0.9 opacity here lets your new background peek through */
-            background-color: rgba(255, 255, 255, 0.9); 
+            /* This white background with 0.8 opacity makes the cart look "frosted" */
+            background-color: rgba(255, 255, 255, 0.85); 
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .cart-header {
@@ -105,26 +108,36 @@
             border-radius: 4px;
         }
 
-        .cart-item-info {
-            flex: 1;
-        }
-
         .cart-item-info h3 {
             font-size: 24px;
             font-family: 'Lacquer', sans-serif;
             margin-bottom: 5px;
         }
-
-        .cart-item-details {
-            font-family: 'Lacquer', sans-serif;
-            font-size: 14px;
-            color: #444;
-            margin-bottom: 10px;
-        }
-
-        /* Rest of your CSS continues... */
     </style>
 </head>
 <body>
-    </body>
+
+    <nav class="navbar">
+        <div class="logo"><a href="#">SEASONING SOUL</a></div>
+        <ul class="nav-menu">
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="cart-container">
+        <div class="cart-items-wrapper">
+            <h1 class="cart-header">Your Cart</h1>
+            <div class="cart-item">
+                <img src="https://via.placeholder.com/1200" alt="Product">
+                <div class="cart-item-info">
+                    <h3>Seasoned Soul Tee</h3>
+                    <p class="cart-item-details">Size: Large | Color: Black</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
 </html>

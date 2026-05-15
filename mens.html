@@ -103,6 +103,16 @@
         .color-swatch.selected { border-color: #333; transform: scale(1.1); }
         .color-name { font-size: 0.85rem; color: #666; }
 
+        /* --- Quantity Selector Styles --- */
+        .quantity-input {
+            width: 60px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+        }
+
         .fabric-tag { font-size: 0.8rem; background: #f0f0f0; padding: 4px 8px; display: inline-block; margin-bottom: 15px; }
 
         .add-to-cart-btn {
@@ -169,6 +179,11 @@
                     </div>
                 </div>
 
+                <div class="selector-group">
+                    <div class="detail-label">Quantity</div>
+                    <input type="number" class="quantity-input" value="1" min="1">
+                </div>
+
                 <div class="detail-label">Fabric</div>
                 <div class="fabric-tag">100% Cotton</div>
 
@@ -188,6 +203,7 @@
             const addBtn = card.querySelector('.add-to-cart-btn');
             const statusMsg = card.querySelector('.status-msg');
             const colorName = card.querySelector('.color-name').innerText;
+            const quantityInput = card.querySelector('.quantity-input');
             let selectedSize = null;
 
             sizeBtns.forEach(btn => {
@@ -206,21 +222,32 @@
                     return;
                 }
 
+                const qty = parseInt(quantityInput.value) || 1;
+
                 const item = {
                     id: card.dataset.productId,
                     name: card.querySelector('.product-name').innerText,
                     color: colorName,
                     size: selectedSize,
-                    price: 20
+                    price: 20,
+                    quantity: qty
                 };
 
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                cart.push(item);
+                
+                // Optional: Check if item already exists in cart to update quantity instead of adding new line
+                const existingIndex = cart.findIndex(i => i.id === item.id && i.size === item.size);
+                if (existingIndex > -1) {
+                    cart[existingIndex].quantity += qty;
+                } else {
+                    cart.push(item);
+                }
+
                 localStorage.setItem('cart', JSON.stringify(cart));
 
                 updateBadge();
                 statusMsg.style.color = "#28a745";
-                statusMsg.innerText = "Added to cart!";
+                statusMsg.innerText = `Added ${qty} to cart!`;
                 
                 setTimeout(() => { statusMsg.innerText = ""; }, 2000);
             });
@@ -229,9 +256,15 @@
         function updateBadge() {
             const badge = document.getElementById('cart-badge');
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            if (cart.length > 0) {
+            
+            // Calculate total items (sum of quantities)
+            const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+            
+            if (totalItems > 0) {
                 badge.style.display = "block";
-                badge.innerText = cart.length;
+                badge.innerText = totalItems;
+            } else {
+                badge.style.display = "none";
             }
         }
 
